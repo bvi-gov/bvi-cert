@@ -26,20 +26,10 @@ async function handleFileUpload(file: File | null): Promise<string | null> {
   const bytes = await file.arrayBuffer();
   const buffer = Buffer.from(bytes);
 
-  const timestamp = Date.now();
-  const filename = `${timestamp}-${file.name.replace(/[^a-zA-Z0-9.-]/g, "_")}`;
-  const pathModule = await import("path");
-  const uploadDir = pathModule.join(process.cwd(), "upload", "certificates");
-
-  const fsModule = await import("fs");
-  if (!fsModule.existsSync(uploadDir)) {
-    fsModule.mkdirSync(uploadDir, { recursive: true });
-  }
-
-  const filepath = pathModule.join(uploadDir, filename);
-  fsModule.writeFileSync(filepath, buffer);
-
-  return `certificates/${filename}`;
+  // On Vercel, filesystem is read-only except /tmp
+  // We store the file as base64 in the database instead
+  const base64 = buffer.toString('base64');
+  return `data:${file.type};base64,${base64}`;
 }
 
 export async function POST(request: NextRequest) {
