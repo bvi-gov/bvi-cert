@@ -155,62 +155,111 @@ function Header({ currentView, setView, mobileMenuOpen, setMobileMenuOpen }: {
 }) {
   return (
     <header className="sticky top-0 z-50">
-      <div className="w-full text-white py-2 px-4 text-center text-xs sm:text-sm font-medium tracking-wide" style={{ backgroundColor: "#009B3A" }}>
-        <div className="flex items-center justify-center gap-2">
-          <ShieldCheck className="w-4 h-4 flex-shrink-0" />
-          <span className="truncate">Royal Virgin Islands Police Force — Certificate Services</span>
-        </div>
+      {/* Government top bar */}
+      <div className="w-full py-1.5 px-4 text-center" style={{ backgroundColor: "#0C1B2A" }}>
+        <p className="text-[11px] sm:text-xs font-medium tracking-widest uppercase text-white/70">
+          Government of the Virgin Islands
+        </p>
       </div>
+      {/* Gold accent line */}
+      <div className="h-0.5" style={{ backgroundColor: "#FFD100" }} />
+      {/* Main navigation */}
       <nav className="bg-white border-b border-gray-200 shadow-sm">
-        <div className="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
-          <div className="flex items-center gap-3 cursor-pointer" onClick={() => setView("home")}>
-            <PoliceShieldBadge size={40} />
-            <div className="min-w-0">
-              <h1 className="text-base sm:text-lg font-bold text-[#0C1B2A] leading-tight">BVI Cert</h1>
-              <p className="text-[10px] sm:text-xs text-gray-500 hidden sm:block">Police Certificate Services</p>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-between h-16">
+            {/* Logo */}
+            <div className="flex items-center gap-3 cursor-pointer group" onClick={() => setView("home")}>
+              <div className="relative">
+                <PoliceShieldBadge size={40} />
+              </div>
+              <div className="min-w-0">
+                <h1 className="text-lg sm:text-xl font-bold leading-tight" style={{ color: "#0C1B2A" }}>
+                  BVI <span style={{ color: "#009B3A" }}>CERT</span>
+                </h1>
+                <p className="text-[10px] sm:text-xs text-gray-500 hidden sm:block tracking-wide">
+                  Certificate Services Portal
+                </p>
+              </div>
             </div>
-          </div>
-          <div className="hidden md:flex items-center gap-1">
-            {[
-              { key: "home" as ViewType, label: "Home", icon: Home },
-              { key: "apply" as ViewType, label: "Apply Now", icon: FileText },
-              { key: "track" as ViewType, label: "Track Application", icon: Search },
-              { key: "info" as ViewType, label: "Information", icon: Info },
-            ].map(({ key, label, icon: Icon }) => (
-              <Button key={key} variant={currentView === key ? "default" : "ghost"} size="sm" onClick={() => setView(key)}
-                className={currentView === key ? "bg-[#009B3A] hover:bg-[#007a2e] text-white" : "text-[#0C1B2A]"}>
-                <Icon className="w-4 h-4 mr-1" />{label}
-              </Button>
-            ))}
-          </div>
-          <div className="hidden md:flex items-center gap-2">
-            <Link href="/login">
-              <Button variant="outline" size="sm" className="text-[#0C1B2A] border-[#0C1B2A]/20 hover:bg-[#0C1B2A] hover:text-white">
+
+            {/* Desktop nav links */}
+            <div className="hidden md:flex items-center gap-1">
+              {[
+                { key: "home" as ViewType, label: "Home", icon: Home },
+                { key: "apply" as ViewType, label: "Apply Now", icon: FileText },
+                { key: "track" as ViewType, label: "Track", icon: Search },
+                { key: "info" as ViewType, label: "Information", icon: Info },
+              ].map(({ key, label, icon: Icon }) => (
+                <button
+                  key={key}
+                  onClick={() => setView(key)}
+                  className={`flex items-center gap-1.5 px-3 py-2 rounded-md text-sm font-medium transition-all duration-200 ${
+                    currentView === key
+                      ? "text-white shadow-sm"
+                      : "text-gray-600 hover:text-[#0C1B2A] hover:bg-gray-50"
+                  }`}
+                  style={currentView === key ? { backgroundColor: "#009B3A" } : undefined}
+                >
+                  <Icon className="w-4 h-4" />
+                  {label}
+                </button>
+              ))}
+            </div>
+
+            {/* Right side: staff login */}
+            <div className="hidden md:flex items-center">
+              <Link href="/login" className="flex items-center gap-1.5 px-3 py-2 text-xs font-medium text-gray-500 hover:text-[#0C1B2A] transition-colors">
+                <ShieldCheck className="w-3.5 h-3.5" />
                 Staff Login
-              </Button>
-            </Link>
+              </Link>
+            </div>
+
+            {/* Mobile menu button */}
+            <button
+              className="md:hidden p-2 rounded-md text-gray-600 hover:bg-gray-50 transition-colors"
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              aria-label="Toggle menu"
+            >
+              {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+            </button>
           </div>
-          <Button variant="ghost" size="icon" className="md:hidden" onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
-            {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
-          </Button>
         </div>
+
+        {/* Mobile menu */}
         {mobileMenuOpen && (
-          <div className="md:hidden bg-white border-t border-gray-100 px-4 py-3 space-y-1">
-            {[
-              { key: "home" as ViewType, label: "Home", icon: Home },
-              { key: "apply" as ViewType, label: "Apply Now", icon: FileText },
-              { key: "track" as ViewType, label: "Track Application", icon: Search },
-              { key: "info" as ViewType, label: "Information", icon: Info },
-            ].map(({ key, label, icon: Icon }) => (
-              <Button key={key} variant={currentView === key ? "default" : "ghost"}
-                className={`w-full justify-start ${currentView === key ? "bg-[#009B3A] hover:bg-[#007a2e] text-white" : "text-[#0C1B2A]"}`}
-                onClick={() => { setView(key); setMobileMenuOpen(false); }}>
-                <Icon className="w-4 h-4 mr-2" />{label}
-              </Button>
-            ))}
-            <Link href="/login" onClick={() => setMobileMenuOpen(false)}>
-              <Button variant="outline" className="w-full justify-start text-[#0C1B2A]">Staff Login</Button>
-            </Link>
+          <div className="md:hidden bg-white border-t border-gray-100 shadow-lg">
+            <div className="px-4 py-3 space-y-1">
+              {[
+                { key: "home" as ViewType, label: "Home", icon: Home },
+                { key: "apply" as ViewType, label: "Apply Now", icon: FileText },
+                { key: "track" as ViewType, label: "Track Application", icon: Search },
+                { key: "info" as ViewType, label: "Information", icon: Info },
+              ].map(({ key, label, icon: Icon }) => (
+                <button
+                  key={key}
+                  onClick={() => { setView(key); setMobileMenuOpen(false); }}
+                  className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition-colors ${
+                    currentView === key
+                      ? "text-white"
+                      : "text-gray-600 hover:bg-gray-50"
+                  }`}
+                  style={currentView === key ? { backgroundColor: "#009B3A" } : undefined}
+                >
+                  <Icon className="w-4 h-4" />
+                  {label}
+                </button>
+              ))}
+              <div className="pt-2 border-t border-gray-100">
+                <Link
+                  href="/login"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm text-gray-500 hover:bg-gray-50 transition-colors"
+                >
+                  <ShieldCheck className="w-4 h-4" />
+                  Staff Login
+                </Link>
+              </div>
+            </div>
           </div>
         )}
       </nav>
@@ -225,36 +274,103 @@ function Header({ currentView, setView, mobileMenuOpen, setMobileMenuOpen }: {
 function Footer({ setView }: { setView: (v: ViewType) => void }) {
   return (
     <footer className="mt-auto" style={{ backgroundColor: "#0C1B2A" }}>
-      <div className="max-w-6xl mx-auto px-4 py-8 text-gray-300">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      {/* Government disclaimer bar */}
+      <div className="h-1" style={{ backgroundColor: "#FFD100" }} />
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+          {/* About */}
           <div>
-            <div className="flex items-center gap-2 mb-3">
-              <PoliceShieldBadge size={28} />
-              <span className="text-white font-bold text-sm">BVI Cert</span>
+            <div className="flex items-center gap-3 mb-4">
+              <PoliceShieldBadge size={32} />
+              <div>
+                <span className="text-white font-bold text-sm block leading-tight">
+                  BVI <span style={{ color: "#009B3A" }}>CERT</span>
+                </span>
+                <span className="text-[10px] text-gray-500 tracking-wide">Certificate Services</span>
+              </div>
             </div>
-            <p className="text-xs text-gray-400 leading-relaxed">Official online portal for Police Certificate and Character Certificate applications in the British Virgin Islands.</p>
+            <p className="text-xs text-gray-400 leading-relaxed mb-4">
+              Official online portal for Police Certificate and Character Certificate applications in the British Virgin Islands, operated by the Royal Virgin Islands Police Force.
+            </p>
+            <div className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[10px] font-semibold tracking-wider uppercase" style={{ backgroundColor: "#009B3A", color: "#FFD100" }}>
+              <ShieldCheck className="w-3 h-3" />
+              Official Government Service
+            </div>
           </div>
+
+          {/* Services */}
           <div>
-            <h3 className="text-white font-semibold text-sm mb-3">Quick Links</h3>
-            <ul className="space-y-2 text-xs">
-              <li><button onClick={() => setView("apply")} className="text-gray-400 hover:text-[#FFD100] transition-colors">Apply for Certificate</button></li>
-              <li><button onClick={() => setView("track")} className="text-gray-400 hover:text-[#FFD100] transition-colors">Track Application</button></li>
-              <li><button onClick={() => setView("info")} className="text-gray-400 hover:text-[#FFD100] transition-colors">Information &amp; FAQ</button></li>
+            <h3 className="text-white font-semibold text-sm mb-4 uppercase tracking-wider">Services</h3>
+            <ul className="space-y-3 text-xs">
+              <li>
+                <button onClick={() => setView("apply")} className="text-gray-400 hover:text-[#FFD100] transition-colors flex items-center gap-2">
+                  <ArrowRight className="w-3 h-3 opacity-50" />
+                  Apply for Police Certificate
+                </button>
+              </li>
+              <li>
+                <button onClick={() => setView("apply")} className="text-gray-400 hover:text-[#FFD100] transition-colors flex items-center gap-2">
+                  <ArrowRight className="w-3 h-3 opacity-50" />
+                  Apply for Character Certificate
+                </button>
+              </li>
+              <li>
+                <button onClick={() => setView("track")} className="text-gray-400 hover:text-[#FFD100] transition-colors flex items-center gap-2">
+                  <ArrowRight className="w-3 h-3 opacity-50" />
+                  Track Application
+                </button>
+              </li>
+              <li>
+                <button onClick={() => setView("info")} className="text-gray-400 hover:text-[#FFD100] transition-colors flex items-center gap-2">
+                  <ArrowRight className="w-3 h-3 opacity-50" />
+                  Information &amp; FAQ
+                </button>
+              </li>
             </ul>
           </div>
+
+          {/* Contact */}
           <div>
-            <h3 className="text-white font-semibold text-sm mb-3">Contact Information</h3>
-            <ul className="space-y-2 text-xs text-gray-400">
-              <li className="flex items-start gap-2"><MapPin className="w-3.5 h-3.5 mt-0.5 flex-shrink-0 text-[#FFD100]" /><span>Road Town Police Station<br />Tortola, British Virgin Islands</span></li>
-              <li className="flex items-center gap-2"><Phone className="w-3.5 h-3.5 flex-shrink-0 text-[#FFD100]" /><span>+1 (284) 468-3701</span></li>
-              <li className="flex items-center gap-2"><Mail className="w-3.5 h-3.5 flex-shrink-0 text-[#FFD100]" /><span>certificates@rvipf.gov.vg</span></li>
+            <h3 className="text-white font-semibold text-sm mb-4 uppercase tracking-wider">Contact</h3>
+            <ul className="space-y-3 text-xs text-gray-400">
+              <li className="flex items-start gap-2.5">
+                <MapPin className="w-3.5 h-3.5 mt-0.5 flex-shrink-0" style={{ color: "#FFD100" }} />
+                <span>Road Town Police Station<br />Tortola, British Virgin Islands</span>
+              </li>
+              <li className="flex items-center gap-2.5">
+                <Phone className="w-3.5 h-3.5 flex-shrink-0" style={{ color: "#FFD100" }} />
+                <span>+1 (284) 468-3701</span>
+              </li>
+              <li className="flex items-center gap-2.5">
+                <Mail className="w-3.5 h-3.5 flex-shrink-0" style={{ color: "#FFD100" }} />
+                <span>certificates@rvipf.gov.vg</span>
+              </li>
+            </ul>
+          </div>
+
+          {/* Legal */}
+          <div>
+            <h3 className="text-white font-semibold text-sm mb-4 uppercase tracking-wider">Legal</h3>
+            <ul className="space-y-3 text-xs text-gray-400">
+              <li>
+                <p className="leading-relaxed">This is an official government service of the Virgin Islands. Unauthorized use, falsification of records, or fraudulent applications is a criminal offense under VI law.</p>
+              </li>
+              <li>
+                <p className="leading-relaxed">All applications are subject to verification by the Royal Virgin Islands Police Force.</p>
+              </li>
             </ul>
           </div>
         </div>
-        <Separator className="my-6 bg-gray-700" />
-        <div className="text-center text-[10px] text-gray-500 space-y-1">
-          <p>&copy; {new Date().getFullYear()} Royal Virgin Islands Police Force. All rights reserved.</p>
-          <p>This is an official government service. Unauthorized use or falsification of records is a criminal offense.</p>
+
+        <Separator className="my-8 bg-white/10" />
+
+        <div className="text-center space-y-2">
+          <p className="text-[11px] text-gray-500">
+            &copy; {new Date().getFullYear()} Government of the Virgin Islands — Royal Virgin Islands Police Force. All rights reserved.
+          </p>
+          <p className="text-[10px] text-gray-600">
+            Official Government Service &middot; Road Town, Tortola, British Virgin Islands
+          </p>
         </div>
       </div>
     </footer>
@@ -268,110 +384,392 @@ function Footer({ setView }: { setView: (v: ViewType) => void }) {
 function HomeView({ setView, startApplication }: { setView: (v: ViewType) => void; startApplication: (type: "police" | "character") => void }) {
   return (
     <div className="min-h-screen">
-      <section className="relative py-16 sm:py-24 px-4 text-white overflow-hidden" style={{ background: "linear-gradient(135deg, #0C1B2A 0%, #009B3A 60%, #007a2e 100%)" }}>
-        <div className="absolute inset-0 opacity-10">
-          <div className="absolute top-0 right-0 w-64 h-64 rounded-full bg-[#FFD100] blur-3xl" />
-          <div className="absolute bottom-0 left-0 w-96 h-96 rounded-full bg-[#FFD100] blur-3xl" />
+      {/* ===== HERO SECTION ===== */}
+      <section className="relative overflow-hidden" style={{ background: "linear-gradient(160deg, #0C1B2A 0%, #0C1B2A 40%, #0a4025 70%, #009B3A 100%)" }}>
+        {/* Geometric pattern overlay */}
+        <div className="absolute inset-0 opacity-[0.03]">
+          <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+                <path d="M 40 0 L 0 0 0 40" fill="none" stroke="white" strokeWidth="0.5" />
+              </pattern>
+            </defs>
+            <rect width="100%" height="100%" fill="url(#grid)" />
+          </svg>
         </div>
-        <div className="max-w-4xl mx-auto text-center relative z-10">
-          <div className="flex justify-center mb-6"><div className="p-4 bg-white/10 backdrop-blur-sm rounded-full"><PoliceShieldBadge size={72} /></div></div>
-          <h1 className="text-3xl sm:text-5xl font-bold mb-4 leading-tight">Certificate Services</h1>
-          <p className="text-lg sm:text-xl text-gray-200 mb-2 font-medium">Royal Virgin Islands Police Force</p>
-          <p className="text-sm sm:text-base text-gray-300 max-w-2xl mx-auto mb-8 leading-relaxed">
-            Apply for your Police Certificate or Character Certificate online. Track your application status in real-time.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-3 justify-center">
-            <Button size="lg" onClick={() => startApplication("police")} className="bg-[#FFD100] text-[#0C1B2A] hover:bg-[#e6bc00] font-bold text-base px-8 py-6"><FileText className="w-5 h-5 mr-2" />Police Certificate</Button>
-            <Button size="lg" variant="outline" onClick={() => startApplication("character")} className="bg-white/10 border-white/30 text-white hover:bg-white/20 font-bold text-base px-8 py-6"><ClipboardList className="w-5 h-5 mr-2" />Character Certificate</Button>
+        {/* Subtle light accents */}
+        <div className="absolute top-0 right-0 w-[500px] h-[500px] rounded-full opacity-[0.04]" style={{ background: "radial-gradient(circle, #FFD100 0%, transparent 70%)", transform: "translate(30%, -30%)" }} />
+        <div className="absolute bottom-0 left-0 w-[400px] h-[400px] rounded-full opacity-[0.04]" style={{ background: "radial-gradient(circle, #FFD100 0%, transparent 70%)", transform: "translate(-30%, 30%)" }} />
+
+        <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 sm:pt-24 pb-20 sm:pb-28">
+          <div className="text-center">
+            {/* Shield badge */}
+            <div className="flex justify-center mb-8">
+              <div className="relative">
+                <div className="p-5 rounded-full" style={{ backgroundColor: "rgba(255,209,0,0.1)", border: "2px solid rgba(255,209,0,0.2)" }}>
+                  <PoliceShieldBadge size={80} />
+                </div>
+                <div className="absolute -bottom-1 -right-1 w-8 h-8 rounded-full flex items-center justify-center shadow-lg" style={{ backgroundColor: "#FFD100" }}>
+                  <Check className="w-4 h-4" style={{ color: "#0C1B2A" }} />
+                </div>
+              </div>
+            </div>
+
+            {/* Title */}
+            <h1 className="text-4xl sm:text-6xl lg:text-7xl font-bold mb-4 leading-tight text-white tracking-tight">
+              BVI <span style={{ color: "#FFD100" }}>CERT</span>
+            </h1>
+            <p className="text-lg sm:text-xl font-medium mb-2" style={{ color: "#009B3A" }}>
+              Official Certificate Services Portal
+            </p>
+            <p className="text-base sm:text-lg text-gray-400 max-w-2xl mx-auto mb-10 leading-relaxed">
+              Apply for your Police Certificate or Character Certificate online through the Royal Virgin Islands Police Force. Fast, secure, and official.
+            </p>
+
+            {/* CTA Buttons */}
+            <div className="flex flex-col sm:flex-row gap-4 justify-center max-w-xl mx-auto">
+              <Button
+                size="lg"
+                onClick={() => startApplication("police")}
+                className="h-14 text-base font-bold px-8 rounded-lg shadow-xl transition-all duration-200 hover:shadow-2xl hover:scale-[1.02] border-0"
+                style={{ backgroundColor: "#FFD100", color: "#0C1B2A" }}
+              >
+                <Shield className="w-5 h-5 mr-2" />
+                Police Certificate
+                <ArrowRight className="w-4 h-4 ml-2" />
+              </Button>
+              <Button
+                size="lg"
+                variant="outline"
+                onClick={() => startApplication("character")}
+                className="h-14 text-base font-bold px-8 rounded-lg border-white/20 text-white hover:bg-white/10 hover:border-white/40 transition-all duration-200"
+                style={{ backgroundColor: "rgba(255,255,255,0.05)" }}
+              >
+                <ClipboardList className="w-5 h-5 mr-2" />
+                Character Certificate
+              </Button>
+            </div>
+          </div>
+        </div>
+
+        {/* Wave separator */}
+        <div className="absolute bottom-0 left-0 right-0">
+          <svg viewBox="0 0 1440 60" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full">
+            <path d="M0 60V20C240 0 480 40 720 30C960 20 1200 0 1440 20V60H0Z" fill="white" />
+          </svg>
+        </div>
+      </section>
+
+      {/* ===== QUICK ACTIONS BAR ===== */}
+      <section className="relative z-10 -mt-2 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-6xl mx-auto">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <button
+              onClick={() => startApplication("police")}
+              className="group flex items-center gap-4 p-5 rounded-xl bg-white shadow-md border border-gray-100 hover:shadow-lg hover:border-[#009B3A]/20 transition-all duration-200 text-left"
+            >
+              <div className="w-12 h-12 rounded-lg flex items-center justify-center flex-shrink-0 transition-colors duration-200" style={{ backgroundColor: "#009B3A" }}>
+                <FileText className="w-6 h-6 text-white" />
+              </div>
+              <div>
+                <p className="font-semibold text-sm text-[#0C1B2A]">Apply Online</p>
+                <p className="text-xs text-gray-500">Start your application</p>
+              </div>
+              <ArrowRight className="w-4 h-4 text-gray-300 group-hover:text-[#009B3A] ml-auto transition-colors" />
+            </button>
+
+            <button
+              onClick={() => setView("track")}
+              className="group flex items-center gap-4 p-5 rounded-xl bg-white shadow-md border border-gray-100 hover:shadow-lg hover:border-[#009B3A]/20 transition-all duration-200 text-left"
+            >
+              <div className="w-12 h-12 rounded-lg flex items-center justify-center flex-shrink-0 transition-colors duration-200" style={{ backgroundColor: "#0C1B2A" }}>
+                <Search className="w-6 h-6 text-white" />
+              </div>
+              <div>
+                <p className="font-semibold text-sm text-[#0C1B2A]">Track Application</p>
+                <p className="text-xs text-gray-500">Check your status</p>
+              </div>
+              <ArrowRight className="w-4 h-4 text-gray-300 group-hover:text-[#009B3A] ml-auto transition-colors" />
+            </button>
+
+            <button
+              onClick={() => setView("info")}
+              className="group flex items-center gap-4 p-5 rounded-xl bg-white shadow-md border border-gray-100 hover:shadow-lg hover:border-[#009B3A]/20 transition-all duration-200 text-left"
+            >
+              <div className="w-12 h-12 rounded-lg flex items-center justify-center flex-shrink-0" style={{ backgroundColor: "#FFD100" }}>
+                <HelpCircle className="w-6 h-6" style={{ color: "#0C1B2A" }} />
+              </div>
+              <div>
+                <p className="font-semibold text-sm text-[#0C1B2A]">Information</p>
+                <p className="text-xs text-gray-500">FAQs and guidance</p>
+              </div>
+              <ArrowRight className="w-4 h-4 text-gray-300 group-hover:text-[#009B3A] ml-auto transition-colors" />
+            </button>
           </div>
         </div>
       </section>
 
-      <section className="py-10 px-4 bg-gray-50">
+      {/* ===== TRACK SECTION ===== */}
+      <section className="py-10 px-4 sm:px-6 lg:px-8">
         <div className="max-w-2xl mx-auto">
-          <Card className="border-2 border-[#009B3A]/20 shadow-lg">
+          <Card className="border-0 shadow-lg overflow-hidden">
+            <div className="h-1" style={{ backgroundColor: "#009B3A" }} />
             <CardContent className="p-6">
               <div className="flex items-center gap-3 mb-4">
-                <div className="p-2 bg-[#009B3A]/10 rounded-full"><Search className="w-5 h-5 text-[#009B3A]" /></div>
-                <div><h2 className="text-lg font-bold text-[#0C1B2A]">Track Your Application</h2><p className="text-sm text-gray-500">Enter your tracking number to check status</p></div>
+                <div className="w-10 h-10 rounded-lg flex items-center justify-center" style={{ backgroundColor: "#009B3A" }}>
+                  <Search className="w-5 h-5 text-white" />
+                </div>
+                <div>
+                  <h2 className="text-lg font-bold text-[#0C1B2A]">Track Your Application</h2>
+                  <p className="text-sm text-gray-500">Enter your tracking number to check status</p>
+                </div>
               </div>
               <div className="flex gap-2">
-                <Input placeholder="e.g. BVI-2026-ABC123" className="flex-1" id="home-tracking-input" />
-                <Button onClick={() => { const input = document.getElementById("home-tracking-input") as HTMLInputElement; if (input) localStorage.setItem("pendingTrack", input.value.trim()); setView("track"); }} className="bg-[#009B3A] hover:bg-[#007a2e] text-white px-6">Track</Button>
+                <Input placeholder="e.g. BVI-2026-ABC123" className="flex-1 h-11" id="home-tracking-input" />
+                <Button
+                  onClick={() => { const input = document.getElementById("home-tracking-input") as HTMLInputElement; if (input) localStorage.setItem("pendingTrack", input.value.trim()); setView("track"); }}
+                  className="h-11 px-6 text-white font-semibold border-0 shadow-sm"
+                  style={{ backgroundColor: "#009B3A" }}
+                >
+                  Track
+                </Button>
               </div>
             </CardContent>
           </Card>
         </div>
       </section>
 
-      <section className="py-12 px-4">
-        <div className="max-w-5xl mx-auto">
-          <h2 className="text-2xl sm:text-3xl font-bold text-center text-[#0C1B2A] mb-3">Certificate Types</h2>
-          <p className="text-gray-500 text-center mb-8 max-w-2xl mx-auto">Choose the certificate that fits your needs</p>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <Card className="cursor-pointer border-2 hover:border-[#009B3A] transition-all group hover:shadow-lg" onClick={() => startApplication("police")}>
-              <CardHeader><div className="flex items-center gap-3"><div className="p-3 bg-[#009B3A]/10 rounded-xl group-hover:bg-[#009B3A]/20 transition-colors"><Shield className="w-7 h-7 text-[#009B3A]" /></div><div><CardTitle className="text-[#0C1B2A]">Police Certificate</CardTitle><CardDescription>Certificate of Police Character</CardDescription></div></div></CardHeader>
-              <CardContent>
-                <ul className="space-y-2 text-sm text-gray-600">
-                  <li className="flex items-start gap-2"><CheckCircle2 className="w-4 h-4 text-[#009B3A] mt-0.5 flex-shrink-0" />Required for employment applications</li>
-                  <li className="flex items-start gap-2"><CheckCircle2 className="w-4 h-4 text-[#009B3A] mt-0.5 flex-shrink-0" />Immigration and visa processing</li>
-                  <li className="flex items-start gap-2"><CheckCircle2 className="w-4 h-4 text-[#009B3A] mt-0.5 flex-shrink-0" />Official government-issued document</li>
-                </ul>
-              </CardContent>
-              <CardFooter><span className="text-sm font-medium text-[#009B3A] group-hover:underline flex items-center gap-1">Apply Now <ArrowRight className="w-4 h-4" /></span></CardFooter>
-            </Card>
-            <Card className="cursor-pointer border-2 hover:border-[#FFD100] transition-all group hover:shadow-lg" onClick={() => startApplication("character")}>
-              <CardHeader><div className="flex items-center gap-3"><div className="p-3 bg-[#FFD100]/10 rounded-xl group-hover:bg-[#FFD100]/20 transition-colors"><ClipboardList className="w-7 h-7 text-[#b89500]" /></div><div><CardTitle className="text-[#0C1B2A]">Character Certificate</CardTitle><CardDescription>Certificate of Good Character</CardDescription></div></div></CardHeader>
-              <CardContent>
-                <ul className="space-y-2 text-sm text-gray-600">
-                  <li className="flex items-start gap-2"><CheckCircle2 className="w-4 h-4 text-[#b89500] mt-0.5 flex-shrink-0" />Required for adoption proceedings</li>
-                  <li className="flex items-start gap-2"><CheckCircle2 className="w-4 h-4 text-[#b89500] mt-0.5 flex-shrink-0" />Education and scholarship applications</li>
-                  <li className="flex items-start gap-2"><CheckCircle2 className="w-4 h-4 text-[#b89500] mt-0.5 flex-shrink-0" />Professional licensing and registration</li>
-                </ul>
-              </CardContent>
-              <CardFooter><span className="text-sm font-medium text-[#b89500] group-hover:underline flex items-center gap-1">Apply Now <ArrowRight className="w-4 h-4" /></span></CardFooter>
-            </Card>
+      {/* ===== SERVICES SECTION ===== */}
+      <section className="py-14 px-4 sm:px-6 lg:px-8" style={{ backgroundColor: "#f8fafc" }}>
+        <div className="max-w-6xl mx-auto">
+          <div className="text-center mb-10">
+            <p className="text-xs font-semibold uppercase tracking-widest mb-2" style={{ color: "#009B3A" }}>Our Services</p>
+            <h2 className="text-2xl sm:text-3xl font-bold text-[#0C1B2A] mb-3">Certificate Types</h2>
+            <p className="text-gray-500 max-w-2xl mx-auto">Choose the certificate that fits your needs. All certificates are officially issued by the Royal Virgin Islands Police Force.</p>
           </div>
-        </div>
-      </section>
-
-      <section className="py-12 px-4" style={{ backgroundColor: "#f8faf9" }}>
-        <div className="max-w-5xl mx-auto">
-          <h2 className="text-2xl sm:text-3xl font-bold text-center text-[#0C1B2A] mb-3">How It Works</h2>
-          <p className="text-gray-500 text-center mb-10 max-w-2xl mx-auto">Get your certificate in 4 simple steps</p>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {[
-              { step: 1, icon: FileText, title: "Complete Application", desc: "Fill out the online form with your personal details and upload required documents.", color: "#009B3A" },
-              { step: 2, icon: CreditCard, title: "Pay Fee", desc: "Pay the certificate processing fee of $20.00 per certificate at the station.", color: "#FFD100" },
-              { step: 3, icon: Clock, title: "Processing", desc: "Your application is reviewed and verified. Track progress with your tracking number.", color: "#009B3A" },
-              { step: 4, icon: CheckCircle2, title: "Collect Certificate", desc: "Pick up your certificate at Road Town Police Station with valid photo ID.", color: "#FFD100" },
-            ].map(({ step, icon: Icon, title, desc, color }) => (
-              <div key={step} className="relative text-center">
-                <div className="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 shadow-md" style={{ backgroundColor: color }}>
-                  <Icon className="w-7 h-7" style={{ color: color === "#FFD100" ? "#0C1B2A" : "#fff" }} />
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
+            {/* Police Certificate */}
+            <Card
+              className="cursor-pointer border-2 border-transparent hover:border-[#009B3A] transition-all duration-300 group hover:shadow-xl overflow-hidden bg-white"
+              onClick={() => startApplication("police")}
+            >
+              <div className="h-1 group-hover:h-1.5 transition-all duration-300" style={{ backgroundColor: "#009B3A" }} />
+              <CardHeader className="pb-4">
+                <div className="flex items-start gap-4">
+                  <div className="w-14 h-14 rounded-xl flex items-center justify-center flex-shrink-0 shadow-sm group-hover:shadow-md transition-shadow" style={{ backgroundColor: "#009B3A" }}>
+                    <Shield className="w-7 h-7 text-white" />
+                  </div>
+                  <div>
+                    <CardTitle className="text-[#0C1B2A] text-lg">Police Certificate</CardTitle>
+                    <CardDescription className="text-xs mt-1">Certificate of Police Character</CardDescription>
+                  </div>
                 </div>
-                <div className="absolute top-0 right-1/2 translate-x-6 w-8 h-8 rounded-full bg-[#0C1B2A] text-white flex items-center justify-center text-sm font-bold">{step}</div>
-                <h3 className="font-bold text-[#0C1B2A] mb-2">{title}</h3>
-                <p className="text-sm text-gray-500 leading-relaxed">{desc}</p>
-              </div>
-            ))}
+              </CardHeader>
+              <CardContent className="pt-0">
+                <ul className="space-y-2.5 text-sm text-gray-600">
+                  <li className="flex items-start gap-2.5">
+                    <CheckCircle2 className="w-4 h-4 mt-0.5 flex-shrink-0" style={{ color: "#009B3A" }} />
+                    Required for employment applications
+                  </li>
+                  <li className="flex items-start gap-2.5">
+                    <CheckCircle2 className="w-4 h-4 mt-0.5 flex-shrink-0" style={{ color: "#009B3A" }} />
+                    Immigration and visa processing
+                  </li>
+                  <li className="flex items-start gap-2.5">
+                    <CheckCircle2 className="w-4 h-4 mt-0.5 flex-shrink-0" style={{ color: "#009B3A" }} />
+                    Official government-issued document
+                  </li>
+                </ul>
+              </CardContent>
+              <CardFooter className="pt-4 border-t border-gray-100">
+                <span className="text-sm font-semibold flex items-center gap-1.5 group-hover:gap-2.5 transition-all duration-200" style={{ color: "#009B3A" }}>
+                  Apply Now <ArrowRight className="w-4 h-4" />
+                </span>
+              </CardFooter>
+            </Card>
+
+            {/* Character Certificate */}
+            <Card
+              className="cursor-pointer border-2 border-transparent hover:border-[#FFD100] transition-all duration-300 group hover:shadow-xl overflow-hidden bg-white"
+              onClick={() => startApplication("character")}
+            >
+              <div className="h-1 group-hover:h-1.5 transition-all duration-300" style={{ backgroundColor: "#FFD100" }} />
+              <CardHeader className="pb-4">
+                <div className="flex items-start gap-4">
+                  <div className="w-14 h-14 rounded-xl flex items-center justify-center flex-shrink-0 shadow-sm group-hover:shadow-md transition-shadow" style={{ backgroundColor: "#FFD100" }}>
+                    <ClipboardList className="w-7 h-7" style={{ color: "#0C1B2A" }} />
+                  </div>
+                  <div>
+                    <CardTitle className="text-[#0C1B2A] text-lg">Character Certificate</CardTitle>
+                    <CardDescription className="text-xs mt-1">Certificate of Good Character</CardDescription>
+                  </div>
+                </div>
+              </CardHeader>
+              <CardContent className="pt-0">
+                <ul className="space-y-2.5 text-sm text-gray-600">
+                  <li className="flex items-start gap-2.5">
+                    <CheckCircle2 className="w-4 h-4 mt-0.5 flex-shrink-0" style={{ color: "#b89500" }} />
+                    Required for adoption proceedings
+                  </li>
+                  <li className="flex items-start gap-2.5">
+                    <CheckCircle2 className="w-4 h-4 mt-0.5 flex-shrink-0" style={{ color: "#b89500" }} />
+                    Education and scholarship applications
+                  </li>
+                  <li className="flex items-start gap-2.5">
+                    <CheckCircle2 className="w-4 h-4 mt-0.5 flex-shrink-0" style={{ color: "#b89500" }} />
+                    Professional licensing and registration
+                  </li>
+                </ul>
+              </CardContent>
+              <CardFooter className="pt-4 border-t border-gray-100">
+                <span className="text-sm font-semibold flex items-center gap-1.5 group-hover:gap-2.5 transition-all duration-200" style={{ color: "#b89500" }}>
+                  Apply Now <ArrowRight className="w-4 h-4" />
+                </span>
+              </CardFooter>
+            </Card>
+          </div>
+
+          <div className="text-center mt-8">
+            <Link href="/certificates" className="text-sm font-medium inline-flex items-center gap-1.5 hover:gap-2.5 transition-all" style={{ color: "#009B3A" }}>
+              View All Services <ArrowRight className="w-4 h-4" />
+            </Link>
           </div>
         </div>
       </section>
 
-      <section className="py-12 px-4">
-        <div className="max-w-5xl mx-auto grid grid-cols-1 sm:grid-cols-3 gap-6">
-          <Card className="text-center p-6"><CreditCard className="w-8 h-8 mx-auto mb-3 text-[#009B3A]" /><h3 className="font-bold text-[#0C1B2A] mb-1">Processing Fee</h3><p className="text-2xl font-bold text-[#009B3A]">$20.00</p><p className="text-xs text-gray-500 mt-1">Per certificate</p></Card>
-          <Card className="text-center p-6"><Clock className="w-8 h-8 mx-auto mb-3 text-[#FFD100]" /><h3 className="font-bold text-[#0C1B2A] mb-1">Processing Time</h3><p className="text-2xl font-bold text-[#0C1B2A]">3 Days</p><p className="text-xs text-gray-500 mt-1">Working days</p></Card>
-          <Card className="text-center p-6"><MapPin className="w-8 h-8 mx-auto mb-3 text-[#009B3A]" /><h3 className="font-bold text-[#0C1B2A] mb-1">Collection Point</h3><p className="text-lg font-bold text-[#0C1B2A]">Road Town</p><p className="text-xs text-gray-500 mt-1">Police Station</p></Card>
+      {/* ===== HOW IT WORKS ===== */}
+      <section className="py-14 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-6xl mx-auto">
+          <div className="text-center mb-12">
+            <p className="text-xs font-semibold uppercase tracking-widest mb-2" style={{ color: "#009B3A" }}>Simple Process</p>
+            <h2 className="text-2xl sm:text-3xl font-bold text-[#0C1B2A] mb-3">How It Works</h2>
+            <p className="text-gray-500 max-w-2xl mx-auto">Get your certificate in 4 straightforward steps</p>
+          </div>
+
+          <div className="relative max-w-4xl mx-auto">
+            {/* Connecting line (desktop) */}
+            <div className="hidden lg:block absolute top-12 left-[12.5%] right-[12.5%] h-0.5 bg-gray-200" />
+            <div className="hidden lg:block absolute top-12 left-[12.5%] h-0.5 transition-all duration-1000" style={{ width: "0%", backgroundColor: "#009B3A" }} />
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+              {[
+                { step: 1, icon: FileText, title: "Complete Application", desc: "Fill out the online form with your personal details and upload required documents.", accent: "#009B3A" },
+                { step: 2, icon: CreditCard, title: "Pay Fee", desc: "Pay the certificate processing fee of $20.00 per certificate at the station.", accent: "#FFD100" },
+                { step: 3, icon: Clock, title: "Processing", desc: "Your application is reviewed and verified. Track progress with your tracking number.", accent: "#009B3A" },
+                { step: 4, icon: CheckCircle2, title: "Collect Certificate", desc: "Pick up your certificate at Road Town Police Station with valid photo ID.", accent: "#FFD100" },
+              ].map(({ step, icon: Icon, title, desc, accent }) => (
+                <div key={step} className="relative text-center group">
+                  <div className="relative inline-flex mb-5">
+                    <div
+                      className="w-20 h-20 rounded-2xl flex items-center justify-center shadow-md group-hover:shadow-xl transition-shadow duration-300 mx-auto"
+                      style={{ backgroundColor: accent === "#009B3A" ? "#009B3A" : "#FFD100" }}
+                    >
+                      <Icon className="w-8 h-8" style={{ color: accent === "#009B3A" ? "#fff" : "#0C1B2A" }} />
+                    </div>
+                    <div
+                      className="absolute -top-2 -right-2 w-7 h-7 rounded-lg flex items-center justify-center text-xs font-bold text-white shadow-sm"
+                      style={{ backgroundColor: "#0C1B2A" }}
+                    >
+                      {step}
+                    </div>
+                  </div>
+                  <h3 className="font-bold text-[#0C1B2A] mb-2 text-sm">{title}</h3>
+                  <p className="text-xs text-gray-500 leading-relaxed max-w-[200px] mx-auto">{desc}</p>
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
       </section>
 
-      <section className="py-12 px-4 text-white text-center" style={{ backgroundColor: "#009B3A" }}>
-        <div className="max-w-2xl mx-auto">
-          <h2 className="text-2xl sm:text-3xl font-bold mb-3">Ready to Apply?</h2>
-          <p className="text-green-100 mb-6">Start your certificate application now.</p>
-          <Button size="lg" onClick={() => setView("apply")} className="bg-[#FFD100] text-[#0C1B2A] hover:bg-[#e6bc00] font-bold px-8 py-6">Start Application <ArrowRight className="w-5 h-5 ml-2" /></Button>
+      {/* ===== STATS BAR ===== */}
+      <section className="py-10 px-4 sm:px-6 lg:px-8" style={{ backgroundColor: "#0C1B2A" }}>
+        <div className="max-w-6xl mx-auto">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-px bg-white/5 rounded-xl overflow-hidden">
+            <div className="text-center p-8" style={{ backgroundColor: "rgba(255,255,255,0.02)" }}>
+              <CreditCard className="w-7 h-7 mx-auto mb-3" style={{ color: "#FFD100" }} />
+              <h3 className="font-bold text-white mb-1">Processing Fee</h3>
+              <p className="text-3xl font-bold" style={{ color: "#FFD100" }}>$20<span className="text-lg">.00</span></p>
+              <p className="text-[11px] text-gray-500 mt-1 uppercase tracking-wider">Per certificate</p>
+            </div>
+            <div className="text-center p-8" style={{ backgroundColor: "rgba(255,255,255,0.02)" }}>
+              <Clock className="w-7 h-7 mx-auto mb-3" style={{ color: "#009B3A" }} />
+              <h3 className="font-bold text-white mb-1">Processing Time</h3>
+              <p className="text-3xl font-bold text-white">3 <span className="text-lg">Days</span></p>
+              <p className="text-[11px] text-gray-500 mt-1 uppercase tracking-wider">Working days</p>
+            </div>
+            <div className="text-center p-8" style={{ backgroundColor: "rgba(255,255,255,0.02)" }}>
+              <MapPin className="w-7 h-7 mx-auto mb-3" style={{ color: "#FFD100" }} />
+              <h3 className="font-bold text-white mb-1">Collection Point</h3>
+              <p className="text-xl font-bold text-white">Road Town</p>
+              <p className="text-[11px] text-gray-500 mt-1 uppercase tracking-wider">Police Station</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ===== TRUST / OFFICIAL SECTION ===== */}
+      <section className="py-14 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-4xl mx-auto text-center">
+          <div className="flex justify-center mb-6">
+            <div className="flex items-center gap-3 px-5 py-2.5 rounded-full" style={{ backgroundColor: "#f0fdf4", border: "1px solid #bbf7d0" }}>
+              <ShieldCheck className="w-5 h-5" style={{ color: "#009B3A" }} />
+              <span className="text-sm font-semibold" style={{ color: "#009B3A" }}>Official Government Service</span>
+            </div>
+          </div>
+          <h2 className="text-2xl sm:text-3xl font-bold text-[#0C1B2A] mb-4">Trusted &amp; Secure</h2>
+          <p className="text-gray-500 max-w-2xl mx-auto mb-10 leading-relaxed">
+            BVI CERT is the official online portal operated by the Royal Virgin Islands Police Force. All applications are processed securely and certificates are verified government documents.
+          </p>
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+            <div className="p-5 rounded-xl border border-gray-100 bg-white shadow-sm">
+              <div className="w-10 h-10 rounded-lg mx-auto mb-3 flex items-center justify-center" style={{ backgroundColor: "#009B3A" }}>
+                <Shield className="w-5 h-5 text-white" />
+              </div>
+              <h3 className="font-bold text-sm text-[#0C1B2A] mb-1">Government Issued</h3>
+              <p className="text-xs text-gray-500">Official certificates from the RVIPF</p>
+            </div>
+            <div className="p-5 rounded-xl border border-gray-100 bg-white shadow-sm">
+              <div className="w-10 h-10 rounded-lg mx-auto mb-3 flex items-center justify-center" style={{ backgroundColor: "#0C1B2A" }}>
+                <CheckCircle2 className="w-5 h-5 text-white" />
+              </div>
+              <h3 className="font-bold text-sm text-[#0C1B2A] mb-1">Verified &amp; Secure</h3>
+              <p className="text-xs text-gray-500">All documents are authenticated</p>
+            </div>
+            <div className="p-5 rounded-xl border border-gray-100 bg-white shadow-sm">
+              <div className="w-10 h-10 rounded-lg mx-auto mb-3 flex items-center justify-center" style={{ backgroundColor: "#FFD100" }}>
+                <Clock className="w-5 h-5" style={{ color: "#0C1B2A" }} />
+              </div>
+              <h3 className="font-bold text-sm text-[#0C1B2A] mb-1">Fast Processing</h3>
+              <p className="text-xs text-gray-500">Ready in 3 working days</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ===== CTA SECTION ===== */}
+      <section className="relative py-16 px-4 sm:px-6 lg:px-8 overflow-hidden" style={{ backgroundColor: "#009B3A" }}>
+        <div className="absolute inset-0 opacity-[0.06]">
+          <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <pattern id="cta-grid" width="30" height="30" patternUnits="userSpaceOnUse">
+                <path d="M 30 0 L 0 0 0 30" fill="none" stroke="white" strokeWidth="0.5" />
+              </pattern>
+            </defs>
+            <rect width="100%" height="100%" fill="url(#cta-grid)" />
+          </svg>
+        </div>
+        <div className="relative z-10 max-w-2xl mx-auto text-center">
+          <h2 className="text-2xl sm:text-3xl font-bold text-white mb-3">Ready to Apply?</h2>
+          <p className="text-green-100 mb-8">Start your certificate application now. It&apos;s quick and easy.</p>
+          <Button
+            size="lg"
+            onClick={() => setView("apply")}
+            className="h-14 px-10 font-bold text-base rounded-lg shadow-xl border-0 transition-all duration-200 hover:shadow-2xl hover:scale-[1.02]"
+            style={{ backgroundColor: "#FFD100", color: "#0C1B2A" }}
+          >
+            Start Application <ArrowRight className="w-5 h-5 ml-2" />
+          </Button>
         </div>
       </section>
     </div>
@@ -803,12 +1201,13 @@ export default function HomePage() {
   };
 
   return (
-    <>
+    <div className="min-h-screen flex flex-col bg-white">
       <Header currentView={currentView} setView={setCurrentView} mobileMenuOpen={mobileMenuOpen} setMobileMenuOpen={setMobileMenuOpen} />
       {currentView === "home" && <HomeView setView={setCurrentView} startApplication={startApplication} />}
       {currentView === "apply" && <ApplicationWizard initialType={startType} setView={setCurrentView} />}
       {currentView === "track" && <TrackView />}
       {currentView === "info" && <InfoView />}
-    </>
+      <Footer setView={setCurrentView} />
+    </div>
   );
 }

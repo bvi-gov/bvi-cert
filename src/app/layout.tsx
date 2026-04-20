@@ -9,7 +9,7 @@ export const metadata: Metadata = {
   title: 'BVI Cert — Certificate Services Portal',
   description: 'Official Certificate Services Portal of the Royal Virgin Islands Police Force.',
   icons: {
-    icon: 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text y=".9em" font-size="90">🛡️</text></svg>',
+    icon: '/bvi-cert-logo.png',
   },
 };
 
