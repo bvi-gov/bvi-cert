@@ -144,6 +144,76 @@ function PoliceShieldBadge({ className = "", size = 48 }: { className?: string; 
 }
 
 /* ------------------------------------------------------------------ */
+/*  OCEAN WAVES ANIMATION COMPONENT                                     */
+/* ------------------------------------------------------------------ */
+
+function OceanWaves({ variant = "hero" }: { variant?: "hero" | "dark" | "green" | "white" }) {
+  const configs = {
+    hero: {
+      waves: [
+        { d1: "M0 120C180 80 360 160 540 120C720 80 900 140 1080 100C1260 60 1380 90 1440 80L1440 180L0 180Z", fill: "rgba(0,155,58,0.12)", className: "ocean-wave ocean-wave-1" },
+        { d1: "M0 140C200 100 400 170 600 130C800 90 1000 160 1200 120C1350 90 1420 110 1440 100L1440 180L0 180Z", fill: "rgba(255,209,0,0.08)", className: "ocean-wave ocean-wave-2" },
+        { d1: "M0 150C160 120 320 170 480 140C640 110 800 165 960 135C1120 105 1280 155 1440 130L1440 180L0 180Z", fill: "rgba(0,155,58,0.06)", className: "ocean-wave ocean-wave-3" },
+        { d1: "M0 160C240 130 480 175 720 150C960 125 1200 170 1440 145L1440 180L0 180Z", fill: "rgba(255,209,0,0.05)", className: "ocean-wave ocean-wave-4" },
+        { d1: "M0 165C180 145 360 178 540 158C720 138 900 172 1080 155C1260 138 1380 162 1440 152L1440 180L0 180Z", fill: "rgba(12,27,42,0.08)", className: "ocean-wave ocean-wave-5" },
+      ],
+      transitionFill: "white",
+    },
+    dark: {
+      waves: [
+        { d1: "M0 130C200 100 400 160 600 120C800 80 1000 150 1200 110C1350 80 1420 100 1440 90L1440 180L0 180Z", fill: "rgba(0,155,58,0.10)", className: "ocean-wave ocean-wave-1" },
+        { d1: "M0 145C180 120 360 165 540 135C720 105 900 158 1080 128C1260 98 1380 122 1440 112L1440 180L0 180Z", fill: "rgba(255,209,0,0.06)", className: "ocean-wave ocean-wave-2" },
+        { d1: "M0 155C240 135 480 172 720 148C960 124 1200 165 1440 142L1440 180L0 180Z", fill: "rgba(0,155,58,0.04)", className: "ocean-wave ocean-wave-3" },
+      ],
+      transitionFill: "#0C1B2A",
+    },
+    green: {
+      waves: [
+        { d1: "M0 130C200 100 400 160 600 120C800 80 1000 150 1200 110C1350 80 1420 100 1440 90L1440 180L0 180Z", fill: "rgba(255,209,0,0.10)", className: "ocean-wave ocean-wave-1" },
+        { d1: "M0 145C180 120 360 165 540 135C720 105 900 158 1080 128C1260 98 1380 122 1440 112L1440 180L0 180Z", fill: "rgba(255,255,255,0.06)", className: "ocean-wave ocean-wave-2" },
+        { d1: "M0 155C240 135 480 172 720 148C960 124 1200 165 1440 142L1440 180L0 180Z", fill: "rgba(12,27,42,0.06)", className: "ocean-wave ocean-wave-3" },
+      ],
+      transitionFill: "#009B3A",
+    },
+    white: {
+      waves: [
+        { d1: "M0 130C200 100 400 160 600 120C800 80 1000 150 1200 110C1350 80 1420 100 1440 90L1440 180L0 180Z", fill: "rgba(0,155,58,0.08)", className: "ocean-wave ocean-wave-1" },
+        { d1: "M0 145C180 120 360 165 540 135C720 105 900 158 1080 128C1260 98 1380 122 1440 112L1440 180L0 180Z", fill: "rgba(12,27,42,0.06)", className: "ocean-wave ocean-wave-2" },
+      ],
+      transitionFill: "#f8fafc",
+    },
+  };
+
+  const config = configs[variant];
+
+  return (
+    <div className="ocean-waves-container">
+      {config.waves.map((wave, i) => (
+        <div key={i} className={wave.className}>
+          <svg viewBox="0 0 1440 180" preserveAspectRatio="none">
+            <path d={wave.d1} fill={wave.fill} />
+          </svg>
+        </div>
+      ))}
+      {/* Transition to next section color */}
+      <div className="absolute bottom-0 left-0 right-0 h-16 z-10">
+        <svg viewBox="0 0 1440 64" preserveAspectRatio="none" className="w-full h-full">
+          <path
+            d="M0 20C180 40 360 10 540 25C720 40 900 15 1080 30C1260 45 1380 20 1440 28V64H0Z"
+            fill={config.transitionFill}
+            opacity="0.95"
+          />
+          <path
+            d="M0 35C240 50 480 25 720 38C960 50 1200 28 1440 40V64H0Z"
+            fill={config.transitionFill}
+          />
+        </svg>
+      </div>
+    </div>
+  );
+}
+
+/* ------------------------------------------------------------------ */
 /*  HEADER                                                             */
 /* ------------------------------------------------------------------ */
 
@@ -400,15 +470,19 @@ function HomeView({ setView, startApplication }: { setView: (v: ViewType) => voi
         {/* Subtle light accents */}
         <div className="absolute top-0 right-0 w-[500px] h-[500px] rounded-full opacity-[0.04]" style={{ background: "radial-gradient(circle, #FFD100 0%, transparent 70%)", transform: "translate(30%, -30%)" }} />
         <div className="absolute bottom-0 left-0 w-[400px] h-[400px] rounded-full opacity-[0.04]" style={{ background: "radial-gradient(circle, #FFD100 0%, transparent 70%)", transform: "translate(-30%, 30%)" }} />
+        {/* Gold sparkle overlay */}
+        <div className="sparkle-overlay" />
 
         <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 sm:pt-24 pb-20 sm:pb-28">
           <div className="text-center">
             {/* Shield badge */}
             <div className="flex justify-center mb-8">
-              <div className="relative">
+              <div className="relative float-gentle">
                 <div className="p-5 rounded-full" style={{ backgroundColor: "rgba(255,209,0,0.1)", border: "2px solid rgba(255,209,0,0.2)" }}>
                   <PoliceShieldBadge size={80} />
                 </div>
+                {/* Glow ring around badge */}
+                <div className="absolute inset-0 rounded-full shimmer-gold" style={{ boxShadow: "0 0 40px rgba(255,209,0,0.15), 0 0 80px rgba(255,209,0,0.05)" }} />
                 <div className="absolute -bottom-1 -right-1 w-8 h-8 rounded-full flex items-center justify-center shadow-lg" style={{ backgroundColor: "#FFD100" }}>
                   <Check className="w-4 h-4" style={{ color: "#0C1B2A" }} />
                 </div>
@@ -452,12 +526,8 @@ function HomeView({ setView, startApplication }: { setView: (v: ViewType) => voi
           </div>
         </div>
 
-        {/* Wave separator */}
-        <div className="absolute bottom-0 left-0 right-0">
-          <svg viewBox="0 0 1440 60" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full">
-            <path d="M0 60V20C240 0 480 40 720 30C960 20 1200 0 1440 20V60H0Z" fill="white" />
-          </svg>
-        </div>
+        {/* Animated Ocean Waves */}
+        <OceanWaves variant="hero" />
       </section>
 
       {/* ===== QUICK ACTIONS BAR ===== */}
@@ -683,8 +753,19 @@ function HomeView({ setView, startApplication }: { setView: (v: ViewType) => voi
       </section>
 
       {/* ===== STATS BAR ===== */}
-      <section className="py-10 px-4 sm:px-6 lg:px-8" style={{ backgroundColor: "#0C1B2A" }}>
-        <div className="max-w-6xl mx-auto">
+      <section className="relative py-10 px-4 sm:px-6 lg:px-8 overflow-hidden" style={{ backgroundColor: "#0C1B2A" }}>
+        {/* Subtle wave texture in background */}
+        <div className="absolute inset-0 opacity-[0.03]">
+          <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <pattern id="stats-wave" width="200" height="40" patternUnits="userSpaceOnUse">
+                <path d="M0 20C50 5 100 35 150 20C175 12 190 25 200 20V40H0Z" fill="none" stroke="#009B3A" strokeWidth="0.5" />
+              </pattern>
+            </defs>
+            <rect width="100%" height="100%" fill="url(#stats-wave)" />
+          </svg>
+        </div>
+        <div className="relative z-10 max-w-6xl mx-auto">
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-px bg-white/5 rounded-xl overflow-hidden">
             <div className="text-center p-8" style={{ backgroundColor: "rgba(255,255,255,0.02)" }}>
               <CreditCard className="w-7 h-7 mx-auto mb-3" style={{ color: "#FFD100" }} />
@@ -706,6 +787,8 @@ function HomeView({ setView, startApplication }: { setView: (v: ViewType) => voi
             </div>
           </div>
         </div>
+        {/* Animated wave transition out of dark section */}
+        <OceanWaves variant="dark" />
       </section>
 
       {/* ===== TRUST / OFFICIAL SECTION ===== */}
@@ -748,7 +831,7 @@ function HomeView({ setView, startApplication }: { setView: (v: ViewType) => voi
       </section>
 
       {/* ===== CTA SECTION ===== */}
-      <section className="relative py-16 px-4 sm:px-6 lg:px-8 overflow-hidden" style={{ backgroundColor: "#009B3A" }}>
+      <section className="relative py-20 px-4 sm:px-6 lg:px-8 overflow-hidden" style={{ backgroundColor: "#009B3A" }}>
         <div className="absolute inset-0 opacity-[0.06]">
           <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
             <defs>
@@ -759,6 +842,8 @@ function HomeView({ setView, startApplication }: { setView: (v: ViewType) => voi
             <rect width="100%" height="100%" fill="url(#cta-grid)" />
           </svg>
         </div>
+        {/* Gold sparkle dots */}
+        <div className="sparkle-overlay" style={{ backgroundImage: "radial-gradient(circle, rgba(255,255,255,0.2) 1px, transparent 1px)" }} />
         <div className="relative z-10 max-w-2xl mx-auto text-center">
           <h2 className="text-2xl sm:text-3xl font-bold text-white mb-3">Ready to Apply?</h2>
           <p className="text-green-100 mb-8">Start your certificate application now. It&apos;s quick and easy.</p>
@@ -771,6 +856,8 @@ function HomeView({ setView, startApplication }: { setView: (v: ViewType) => voi
             Start Application <ArrowRight className="w-5 h-5 ml-2" />
           </Button>
         </div>
+        {/* Animated wave transition to footer */}
+        <OceanWaves variant="green" />
       </section>
     </div>
   );
