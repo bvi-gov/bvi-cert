@@ -186,6 +186,53 @@
   50%      { transform: translateY(-8px); }
 }
 
+/* BVI flag color shifting gradient */
+@keyframes bvi-color-shift {
+  0%   { background-position: 0% 50%; }
+  25%  { background-position: 100% 50%; }
+  50%  { background-position: 100% 0%; }
+  75%  { background-position: 0% 100%; }
+  100% { background-position: 0% 50%; }
+}
+
+@keyframes fade-in-up {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes count-pulse {
+  0%, 100% { transform: scale(1); }
+  50%      { transform: scale(1.02); }
+}
+
+.bvi-gradient-text {
+  background: linear-gradient(135deg, #FFD100 0%, #009B3A 25%, #002868 50%, #FFD100 75%, #009B3A 100%);
+  background-size: 300% 300%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: bvi-color-shift 8s ease-in-out infinite;
+}
+
+.animate-fade-in-up {
+  animation: fade-in-up 0.6s ease-out forwards;
+  opacity: 0;
+}
+
+.animate-fade-in-up-1 { animation-delay: 0.1s; }
+.animate-fade-in-up-2 { animation-delay: 0.2s; }
+.animate-fade-in-up-3 { animation-delay: 0.3s; }
+.animate-fade-in-up-4 { animation-delay: 0.4s; }
+.animate-fade-in-up-5 { animation-delay: 0.5s; }
+.animate-fade-in-up-6 { animation-delay: 0.6s; }
+.animate-fade-in-up-7 { animation-delay: 0.7s; }
+.animate-fade-in-up-8 { animation-delay: 0.8s; }
+
+/* Form page soft background */
+.form-page-bg {
+  background: linear-gradient(180deg, #f0f9f4 0%, #f0f4ff 30%, #fefce8 60%, #f0f9f4 100%);
+}
+
 .ocean-waves-container {
   position: absolute;
   bottom: 0;

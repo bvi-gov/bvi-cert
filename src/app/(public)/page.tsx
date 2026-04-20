@@ -455,7 +455,7 @@ function HomeView({ setView, startApplication }: { setView: (v: ViewType) => voi
   return (
     <div className="min-h-screen">
       {/* ===== HERO SECTION ===== */}
-      <section className="relative overflow-hidden" style={{ background: "linear-gradient(160deg, #0C1B2A 0%, #0C1B2A 40%, #0a4025 70%, #009B3A 100%)" }}>
+      <section className="relative overflow-hidden" style={{ background: "linear-gradient(160deg, #0C1B2A 0%, #0C1B2A 30%, #002868 50%, #0a4025 70%, #009B3A 100%)" }}>
         {/* Geometric pattern overlay */}
         <div className="absolute inset-0 opacity-[0.03]">
           <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
@@ -467,8 +467,10 @@ function HomeView({ setView, startApplication }: { setView: (v: ViewType) => voi
             <rect width="100%" height="100%" fill="url(#grid)" />
           </svg>
         </div>
-        {/* Subtle light accents */}
-        <div className="absolute top-0 right-0 w-[500px] h-[500px] rounded-full opacity-[0.04]" style={{ background: "radial-gradient(circle, #FFD100 0%, transparent 70%)", transform: "translate(30%, -30%)" }} />
+        {/* Subtle light accents - BVI flag inspired colors */}
+        <div className="absolute top-0 right-0 w-[600px] h-[600px] rounded-full opacity-[0.06]" style={{ background: "radial-gradient(circle, #FFD100 0%, transparent 60%)", transform: "translate(25%, -35%)" }} />
+        <div className="absolute top-[20%] right-[10%] w-[300px] h-[300px] rounded-full opacity-[0.04]" style={{ background: "radial-gradient(circle, #D4213D 0%, transparent 70%)" }} />
+        <div className="absolute bottom-[10%] left-[5%] w-[400px] h-[400px] rounded-full opacity-[0.05]" style={{ background: "radial-gradient(circle, #002868 0%, transparent 70%)" }} />
         <div className="absolute bottom-0 left-0 w-[400px] h-[400px] rounded-full opacity-[0.04]" style={{ background: "radial-gradient(circle, #FFD100 0%, transparent 70%)", transform: "translate(-30%, 30%)" }} />
         {/* Gold sparkle overlay */}
         <div className="sparkle-overlay" />
@@ -491,7 +493,7 @@ function HomeView({ setView, startApplication }: { setView: (v: ViewType) => voi
 
             {/* Title */}
             <h1 className="text-4xl sm:text-6xl lg:text-7xl font-bold mb-4 leading-tight text-white tracking-tight">
-              BVI <span style={{ color: "#FFD100" }}>CERT</span>
+              BVI <span className="bvi-gradient-text">CERT</span>
             </h1>
             <p className="text-lg sm:text-xl font-medium mb-2" style={{ color: "#009B3A" }}>
               Official Certificate Services Portal
@@ -1122,7 +1124,7 @@ function ApplicationWizard({ initialType, setView }: { initialType: "police" | "
   );
 
   return (
-    <div className="max-w-3xl mx-auto px-4 py-8">
+    <div className="max-w-3xl mx-auto px-4 py-8" style={{ background: "linear-gradient(180deg, #f0f9f4 0%, #f5f0ff 50%, #fefce8 100%)", minHeight: "calc(100vh - 180px)" }}>
       {step < 5 && (
         <div className="mb-8">
           <Progress value={(step / 5) * 100} className="h-2 mb-6" />
@@ -1138,7 +1140,7 @@ function ApplicationWizard({ initialType, setView }: { initialType: "police" | "
           </div>
         </div>
       )}
-      <Card className="shadow-lg">
+      <Card className="shadow-lg border-0" style={{ backgroundColor: "rgba(255,255,255,0.85)", backdropFilter: "blur(10px)" }}>
         <CardContent className="p-6">
           {step === 0 && renderStep0()}
           {step === 1 && renderStep1()}

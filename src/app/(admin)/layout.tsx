@@ -5,7 +5,7 @@ import { Toaster } from '@/components/ui/sonner';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import {
-  Shield, LayoutDashboard, TowerControl, FileText, Upload, Search,
+  Shield, LayoutDashboard, FileText, Upload, Search,
   Users, ScrollText, Settings, LogOut, Menu, X, ChevronDown,
   Bell, Home, AlertTriangle, User
 } from 'lucide-react';
@@ -31,7 +31,6 @@ interface NavItem {
 
 const navItems: NavItem[] = [
   { href: '/dashboard', label: 'Dashboard', icon: LayoutDashboard, roles: ['super_admin', 'admin', 'staff', 'viewer'] },
-  { href: '/control-tower', label: 'Control Tower', icon: TowerControl, roles: ['super_admin', 'admin', 'staff'], badge: 'Pending' },
   { href: '/certificates', label: 'Certificates', icon: FileText, roles: ['super_admin', 'admin', 'staff', 'viewer'] },
   { href: '/import', label: 'Import Data', icon: Upload, roles: ['super_admin', 'admin'] },
   { href: '/search', label: 'Universal Search', icon: Search, roles: ['super_admin', 'admin', 'staff', 'viewer'] },
