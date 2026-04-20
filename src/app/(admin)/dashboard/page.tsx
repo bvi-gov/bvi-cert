@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useEffect, useRef } from 'react';
+import { useRouter } from 'next/navigation';
 import {
   Shield, FileText, Clock, CheckCircle2, XCircle, AlertTriangle,
   TrendingUp, Users, Archive, BarChart3, Activity, Eye,
@@ -93,6 +94,7 @@ const sampleActivities = [
 // ── Main Component ───────────────────────────────────────────────────────────
 
 export default function DashboardPage() {
+  const router = useRouter();
   const [stats, setStats] = useState<Stats | null>(null);
   const [loading, setLoading] = useState(true);
   const [mounted, setMounted] = useState(false);
@@ -158,9 +160,9 @@ export default function DashboardPage() {
   const dayLabels = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
 
   const quickActions = [
-    { label: 'New Application', icon: PlusCircle, color: '#009B3A', bg: 'rgba(0,155,58,0.08)' },
-    { label: 'Search Records', icon: Search, color: '#FFD100', bg: 'rgba(255,209,0,0.1)' },
-    { label: 'View Reports', icon: FileBarChart, color: '#0C1B2A', bg: 'rgba(12,27,42,0.06)' },
+    { label: 'New Application', icon: PlusCircle, color: '#009B3A', bg: 'rgba(0,155,58,0.08)', href: '/control-tower' },
+    { label: 'Search Records', icon: Search, color: '#FFD100', bg: 'rgba(255,209,0,0.1)', href: '/search' },
+    { label: 'Import Data', icon: Upload, color: '#0C1B2A', bg: 'rgba(12,27,42,0.06)', href: '/import' },
   ];
 
   const kpiCards = [
@@ -197,6 +199,7 @@ export default function DashboardPage() {
                 transform: mounted ? 'translateY(0)' : 'translateY(16px)',
                 transition: `opacity 0.5s ease ${i * 80}ms, transform 0.5s ease ${i * 80}ms, box-shadow 0.2s ease`,
               }}
+              onClick={() => router.push(action.href)}
             >
               <CardContent className="p-5 flex items-center justify-between">
                 <div className="flex items-center gap-3">

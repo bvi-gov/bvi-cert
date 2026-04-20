@@ -34,7 +34,6 @@ import {
   Circle,
   Star,
   Eye,
-  PrinterIcon,
 } from "lucide-react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
@@ -1288,6 +1287,15 @@ export default function HomePage() {
     setCurrentView("apply");
     window.scrollTo(0, 0);
   };
+
+  // Handle ?apply=police|character query param from certificates page
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const applyType = params.get("apply");
+    if (applyType === "police" || applyType === "character") {
+      startApplication(applyType);
+    }
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <div className="min-h-screen flex flex-col bg-white">

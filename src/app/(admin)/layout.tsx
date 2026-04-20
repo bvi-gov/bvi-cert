@@ -6,8 +6,8 @@ import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import {
   Shield, LayoutDashboard, FileText, Upload, Search,
-  Users, ScrollText, Settings, LogOut, Menu, X, ChevronDown,
-  Bell, Home, AlertTriangle, User
+  Users, ScrollText, LogOut, Menu, X, ChevronDown,
+  Bell, Home, User
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -31,7 +31,7 @@ interface NavItem {
 
 const navItems: NavItem[] = [
   { href: '/dashboard', label: 'Dashboard', icon: LayoutDashboard, roles: ['super_admin', 'admin', 'staff', 'viewer'] },
-  { href: '/certificates', label: 'Certificates', icon: FileText, roles: ['super_admin', 'admin', 'staff', 'viewer'] },
+  { href: '/control-tower', label: 'Manage Applications', icon: FileText, roles: ['super_admin', 'admin', 'staff'] },
   { href: '/import', label: 'Import Data', icon: Upload, roles: ['super_admin', 'admin'] },
   { href: '/search', label: 'Universal Search', icon: Search, roles: ['super_admin', 'admin', 'staff', 'viewer'] },
   { href: '/users', label: 'User Management', icon: Users, roles: ['super_admin', 'admin'] },
@@ -222,10 +222,6 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                     <p className="text-xs text-gray-500">{user.email}</p>
                     <Badge variant="outline" className="mt-1 text-[10px]">{getRoleLabel(user.role)}</Badge>
                   </div>
-                  <DropdownMenuSeparator />
-                  <DropdownMenuItem onClick={() => router.push('/settings')}>
-                    <Settings className="w-4 h-4 mr-2" /> Settings
-                  </DropdownMenuItem>
                   <DropdownMenuSeparator />
                   <DropdownMenuItem onClick={handleLogout} className="text-red-600">
                     <LogOut className="w-4 h-4 mr-2" /> Sign Out
