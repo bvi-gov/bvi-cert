@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
+import { Toaster } from '@/components/ui/sonner';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import {
@@ -66,7 +67,13 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
 
   useEffect(() => {
     fetch('/api/auth/session').then(r => r.json()).then(data => {
-      if (data.authenticated) setUser(data.user);
+      if (data.authenticated) {
+        setUser(data.user);
+        // Load notification count
+        fetch('/api/notifications').then(r => r.json()).then(n => {
+          if (n.success) setNotifications(n.unreadCount || 0);
+        }).catch(() => {});
+      }
       else router.push('/login');
     }).catch(() => router.push('/login'));
   }, [router]);
@@ -232,6 +239,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
 
         {/* Page content */}
         <main className="p-4 md:p-6">{children}</main>
+        <Toaster position="top-right" richColors closeButton />
       </div>
     </div>
   );
