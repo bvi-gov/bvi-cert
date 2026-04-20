@@ -1,0 +1,16 @@
+*
+!src/
+!src/**
+!prisma/
+!prisma/**
+!public/
+!public/**
+!package.json
+!next.config.ts
+!tsconfig.json
+!tailwind.config.ts
+!postcss.config.mjs
+!eslint.config.mjs
+!components.json
+!supabase-setup.sql
+!.gitignore

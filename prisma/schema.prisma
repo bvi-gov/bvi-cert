@@ -1,0 +1,85 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model CertificateApplication {
+  id              String   @id @default(cuid())
+  trackingNumber  String   @unique
+  type            String   // "police" or "character"
+  status          String   @default("pending") // pending, processing, ready, collected, rejected
+
+  // Applicant Info
+  surname         String
+  givenNames      String
+  sex             String
+  dateOfBirth     String
+  age             String?
+  placeOfBirth    String
+  nationality     String
+  occupation      String
+
+  // Contact
+  physicalAddress String
+  premisesOwner   String?
+  contactNumber   String
+  email           String?
+
+  // Migration
+  countriesBefore String?
+  dateArrivedBVI  String?
+
+  // Application details
+  purpose         String
+  certificateCount Int      @default(1)
+  convicted       String   @default("No")
+  convictionDetails String?
+
+  // Submitted by (if proxy)
+  submittedByName   String?
+  submittedBySignature String?
+
+  // Documents (stored as URLs/paths)
+  passportPhotoPath   String?
+  passportCopyPath    String?
+
+  // Payment
+  paymentStatus   String   @default("pending") // pending, paid, failed
+  paymentAmount   Float    @default(20.0)
+  paymentMethod   String?
+  paymentDate     DateTime?
+  receiptNumber   String?
+
+  // Processing
+  certificateNumber String?
+  dateIssued       DateTime?
+  dateExpires      DateTime?
+  issuedBy         String?
+
+  // Metadata
+  ipAddress       String?
+  userAgent       String?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
+
+model AuditLog {
+  id        String   @id @default(cuid())
+  action    String
+  details   String?
+  ipAddress String?
+  createdAt DateTime @default(now())
+}
+
+model RateLimit {
+  id        String   @id @default(cuid())
+  ipAddress String
+  endpoint  String
+  count     Int      @default(1)
+  resetAt   DateTime
+  createdAt DateTime @default(now())
+}
